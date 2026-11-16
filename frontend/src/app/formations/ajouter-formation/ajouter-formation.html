@@ -1,0 +1,87 @@
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      <h3 class="mb-0">Ajouter une formation</h3>
+    </div>
+
+    <div class="card-body">
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <form #formationForm="ngForm"
+            (ngSubmit)="ajouterFormation()">
+
+        <div class="mb-3">
+          <label for="theme" class="form-label">
+            Thème de la formation
+          </label>
+
+          <select
+            id="theme"
+            name="theme"
+            class="form-select"
+            [(ngModel)]="formation.theme"
+            required>
+
+            <option *ngFor="let theme of themes" [ngValue]="theme">
+              {{ getThemeLabel(theme) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="tableMatiere" class="form-label">
+            Table des matières
+          </label>
+
+          <textarea
+            id="tableMatiere"
+            name="tableMatiere"
+            class="form-control"
+            rows="5"
+            [(ngModel)]="formation.formationDetail.fdTableMatiere"
+            placeholder="Saisir la table des matières..."
+            required>
+          </textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="supportPDF" class="form-label">
+            Lien du support PDF
+          </label>
+
+          <input
+            id="supportPDF"
+            name="supportPDF"
+            type="text"
+            class="form-control"
+            [(ngModel)]="formation.formationDetail.fdSupportPDF"
+            placeholder="https://exemple.com/support.pdf"
+            required>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="formationForm.invalid || loading">
+          {{ loading ? 'Enregistrement...' : 'Ajouter la formation' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary ms-2"
+          routerLink="/formations">
+          Annuler
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

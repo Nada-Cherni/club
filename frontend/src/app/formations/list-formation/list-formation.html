@@ -1,0 +1,85 @@
+
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Liste des formations</h2>
+
+    <a routerLink="/ajouter-formation" class="btn btn-primary">
+      + Ajouter une formation
+    </a>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="text-center my-4">
+    Chargement des formations...
+  </div>
+
+  <div class="table-responsive" *ngIf="!loading">
+    <table class="table table-striped table-bordered align-middle">
+
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Thème</th>
+          <th>Table des matières</th>
+          <th>Support PDF</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let formation of formations">
+
+          <td>{{ formation.id }}</td>
+
+          <td>
+            {{ getThemeLabel(formation.theme) }}
+          </td>
+
+          <td>
+            {{ formation.formationDetail?.fdTableMatiere || '-' }}
+          </td>
+
+          <td>
+            <a
+              *ngIf="formation.formationDetail?.fdSupportPDF as pdf"
+              [href]="pdf"
+              target="_blank"
+              rel="noopener noreferrer">
+              Consulter le support
+            </a>
+
+            <span *ngIf="!formation.formationDetail?.fdSupportPDF">
+              Aucun support
+            </span>
+          </td>
+
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="supprimerFormation(formation)">
+              Supprimer
+            </button>
+          </td>
+
+        </tr>
+
+        <tr *ngIf="formations.length === 0">
+          <td colspan="5" class="text-center">
+            Aucune formation enregistrée.
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
